@@ -60,9 +60,12 @@ public class CSCodeBlockParser : InlineParser
         {
             slice.NextChar();
         }
-        processor.Inline = new CSCodeBlock() { SourceCode = sourceCode };
-        processor.Inline.Span = new SourceSpan() { Start = processor.GetSourcePosition(slice.Start, out int line, out int column) };
-        processor.Inline.Line = line;
+        processor.Inline = new CSCodeBlock
+        {
+            SourceCode = sourceCode,
+            Span = new SourceSpan() { Start = processor.GetSourcePosition(slice.Start, out int line, out int column) },
+            Line = line
+        };
         processor.Inline.Span.End = processor.Inline.Span.Start + (start - end - 1);
         return true;
     }

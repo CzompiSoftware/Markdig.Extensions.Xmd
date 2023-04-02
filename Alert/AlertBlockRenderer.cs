@@ -19,8 +19,6 @@ public class AlertBlockRenderer : HtmlObjectRenderer<AlertBlock>
 
     protected override void Write(HtmlRenderer renderer, AlertBlock obj)
     {
-        var pipeline = new MarkdownPipelineBuilder();
-        pipeline = pipeline.UseAdvancedExtensions().UseXmdLanguage();
         renderer.Write("<div class=\"alert alert-").Write(obj.Type).Write("\">").Write(obj.Content).Write("</div>");
     }
 }

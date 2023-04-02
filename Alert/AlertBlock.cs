@@ -27,7 +27,6 @@ public class AlertBlock : LeafInline
     {
         get
         {
-            _pipeline = _pipeline.UseAdvancedExtensions().UseXmdLanguage();
             var pipeline = _pipeline.Build();
             var html = Markdown.ToHtml(content, pipeline);
             return html;
