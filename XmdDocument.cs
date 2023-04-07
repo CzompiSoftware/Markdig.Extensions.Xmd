@@ -1,44 +1,36 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Markdig.Extensions.Xmd
+namespace Markdig.Extensions.Xmd;
+
+public class XmdDocument
 {
-    public class HtmlReportObject
+    private static readonly Lazy<XmdDocument> lazy = new(() => new XmdDocument());
+
+    public static XmdDocument Instance { get { return lazy.Value; } }
+
+#nullable enable
+    /// <summary>
+    /// Gets the current uri of the request, that invoked this instance
+    /// </summary>
+    public Uri? CurrentUri { get; internal set; } = null;
+#nullable restore
+
+    private XmdDocument() { }
+
+    public object ReportObject { get; private set; }
+
+    public void InsertHtml(string html)
     {
-        public string Html { get; set; }
+        ReportObject = new HtmlReportObject() { Html = html };
     }
 
-    public class MarkdownReportObject
+    public void InsertMarkdown(string markdown)
     {
-        public string Markdown { get; set; }
+        ReportObject = new MarkdownReportObject() { Markdown = markdown };
     }
 
-    public class XmdDocument
+    public void Reset()
     {
-        private static readonly Lazy<XmdDocument> lazy = new Lazy<XmdDocument>(() => new XmdDocument());
-
-        public static XmdDocument Instance { get { return lazy.Value; } }
-
-        private XmdDocument() { }
-
-        public object ReportObject { get; private set; }
-
-        public void InsertHtml(string html)
-        {
-            ReportObject = new HtmlReportObject() { Html = html };
-        }
-
-        public void InsertMarkdown(string markdown)
-        {
-            ReportObject = new MarkdownReportObject() { Markdown = markdown };
-        }
-
-        public void Reset()
-        {
-            ReportObject = null;
-        }
+        ReportObject = null;
     }
 }

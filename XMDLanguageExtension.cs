@@ -16,7 +16,7 @@ public class XmdLanguageExtension : IMarkdownExtension
     private readonly LogFactory _logFactory;
     private readonly ScriptCompiler _scriptCompiler;
 
-    public XmdLanguageExtension(CSCodeOptions options)
+    public XmdLanguageExtension(CSCodeOptions options, Uri currentUri = null)
     {
         _options = options;
         _logFactory = CreateLogFactory(options.MinimumLogLevel, options.DebugMode);
@@ -24,6 +24,7 @@ public class XmdLanguageExtension : IMarkdownExtension
         _scriptConsole = ScriptConsole.Default;
         
         Globals.AddToGlobalScript(_options.References, _options.Usings);
+        XmdDocument.Instance.CurrentUri = currentUri;
     }
 
     internal static Func<LogLevel, bool, LogFactory> CreateLogFactory = (verbosity, debugMode) =>
